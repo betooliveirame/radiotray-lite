@@ -29,10 +29,10 @@ const char* const kAppIndicatorIconConnecting = "radiotray_connecting";
 
 // Application info
 const char* const kAppVersion = APP_VERSION;
-const char* const kAppName = "Radio Tray Lite";
+const char* const kAppName = "Radio Tray Lite (KISSFM SP)";
 const char* const kWebSite = "https://github.com/thekvs/radiotray-lite/";
 const char* const kAuthor = "Konstantin Sorokin <kvs@sigterm.ru>";
-const char* const kCopyrightYear = "2016-2017";
+const char* const kCopyrightYear = "2016-2024";
 const char* const kCopyrightTmpl = "%s - Copyright (c) %s\n %s";
 
 } // namespace radiotray

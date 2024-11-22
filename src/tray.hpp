@@ -11,7 +11,7 @@
 #include <unistd.h>
 
 #include <gtkmm.h>
-#include <libappindicator/app-indicator.h>
+#include <libayatana-appindicator/app-indicator.h>
 
 #include "pugixml/pugixml.hpp"
 

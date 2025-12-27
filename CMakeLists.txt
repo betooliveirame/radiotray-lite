@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 project(radiotray_lite)
 
 include(FindPkgConfig)
@@ -46,7 +46,10 @@ pkg_check_modules(GLIB2 REQUIRED glib-2.0)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
 pkg_check_modules(CURL REQUIRED libcurl)
-pkg_check_modules(APPINDICATOR REQUIRED ayatana-appindicator3-0.1)
+pkg_check_modules(APPINDICATOR QUIET ayatana-appindicator3-0.1)
+if (NOT APPINDICATOR_FOUND)
+    pkg_check_modules(APPINDICATOR REQUIRED appindicator3-0.1)
+endif()
 
 pkg_check_modules(GSTREAMER QUIET gstreamer-1.0)
 if (NOT GSTREAMER_FOUND)

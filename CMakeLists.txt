@@ -89,4 +89,17 @@ endif()
 
 set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 
+# Prefer modern Debian/Ubuntu runtime deps when detected.
+set(_deps_modern "libc6, libgtkmm-3.0-1v5 (>= 3.10.1), libgstreamermm-1.0-0v5 (>= 1.10.0) | libgstreamermm-1.0-1 (>= 1.10.0), gstreamer1.0-plugins-base (>= 1.2.4), gstreamer1.0-plugins-good (>= 1.2.4), gstreamer1.0-plugins-bad (>= 1.2.4), libcurl4 (>= 7.58.0), libnotify4 (>= 0.7.6), libayatana-appindicator3-1 | libappindicator3-1, libmagic1")
+set(_deps_legacy "libc6, libgtkmm-3.0-1 | libgtkmm-3.0-1v5 (>= 3.10.1), libgstreamermm-0.10-2 (>= 0.10.11) | libgstreamermm-1.0-0v5 (>= 1.4.3) | libgstreamermm-1.0-1 (>= 1.10.0), gstreamer0.10-plugins-base (>= 0.10.36) | gstreamer1.0-plugins-base (>= 1.2.4), gstreamer0.10-plugins-good (>= 0.10.31) | gstreamer1.0-plugins-good (>= 1.2.4), gstreamer0.10-plugins-bad (>= 0.10.23) | gstreamer1.0-plugins-bad (>= 1.2.4), libcurl3 (>= 7.35.0) | libcurl4 (>= 7.58.0), libnotify4 (>= 0.7.6), libappindicator3-1, libmagic1")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "${_deps_legacy}")
+if (EXISTS "/etc/os-release")
+    file(READ "/etc/os-release" _os_release)
+    string(REGEX MATCH "\nID=([A-Za-z0-9_-]+)" _match_id "${_os_release}")
+    string(TOLOWER "${CMAKE_MATCH_1}" _os_id)
+    if (_os_id STREQUAL "ubuntu" OR _os_id STREQUAL "debian")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "${_deps_modern}")
+    endif()
+endif()
+
 configure_file(${PROJECT_SOURCE_DIR}/cmake/CPackConfig.cmake.in CPackConfig.cmake @ONLY)

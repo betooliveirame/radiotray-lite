@@ -26,7 +26,6 @@ jobs:
             libcurl4-openssl-dev \
             libnotify-dev \
             libayatana-appindicator3-dev \
-            libappindicator3-dev \
             libmagic-dev \
             dpkg-dev rpm
 

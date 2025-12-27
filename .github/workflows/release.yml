@@ -1,0 +1,54 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake make g++ pkg-config \
+            libgtkmm-3.0-dev \
+            libgstreamermm-1.0-dev \
+            libcurl4-openssl-dev \
+            libnotify-dev \
+            libappindicator3-dev \
+            libmagic-dev \
+            dpkg-dev rpm
+
+      - name: Prepare build directory
+        run: mkdir -p build
+
+      - name: Configure
+        run: |
+          cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+        working-directory: build
+
+      - name: Build
+        run: make -j"$(nproc)"
+        working-directory: build
+
+      - name: Package (DEB)
+        run: cpack -G DEB
+        working-directory: build
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/packages/*.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

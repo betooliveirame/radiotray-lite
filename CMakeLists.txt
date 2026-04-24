@@ -63,7 +63,7 @@ endif()
 
 set(TARGET_VERSION_MAJOR 0)
 set(TARGET_VERSION_MINOR 2)
-set(TARGET_VERSION_PATCH 19)
+set(TARGET_VERSION_PATCH 20)
 set(APP_VERSION "${TARGET_VERSION_MAJOR}.${TARGET_VERSION_MINOR}.${TARGET_VERSION_PATCH}")
 
 add_subdirectory(src)
@@ -90,8 +90,8 @@ endif()
 set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 
 # Prefer modern Debian/Ubuntu runtime deps when detected.
-set(_deps_modern "libc6, libgtkmm-3.0-1v5 (>= 3.10.1), libgstreamermm-1.0-0v5 (>= 1.10.0) | libgstreamermm-1.0-1 (>= 1.10.0), gstreamer1.0-plugins-base (>= 1.2.4), gstreamer1.0-plugins-good (>= 1.2.4), gstreamer1.0-plugins-bad (>= 1.2.4), libcurl4 (>= 7.58.0), libnotify4 (>= 0.7.6), libayatana-appindicator3-1 | libappindicator3-1, libmagic1")
-set(_deps_legacy "libc6, libgtkmm-3.0-1 | libgtkmm-3.0-1v5 (>= 3.10.1), libgstreamermm-0.10-2 (>= 0.10.11) | libgstreamermm-1.0-0v5 (>= 1.4.3) | libgstreamermm-1.0-1 (>= 1.10.0), gstreamer0.10-plugins-base (>= 0.10.36) | gstreamer1.0-plugins-base (>= 1.2.4), gstreamer0.10-plugins-good (>= 0.10.31) | gstreamer1.0-plugins-good (>= 1.2.4), gstreamer0.10-plugins-bad (>= 0.10.23) | gstreamer1.0-plugins-bad (>= 1.2.4), libcurl3 (>= 7.35.0) | libcurl4 (>= 7.58.0), libnotify4 (>= 0.7.6), libappindicator3-1, libmagic1")
+set(_deps_modern "libc6, libgtkmm-3.0-1v5 (>= 3.10.1), libgstreamermm-1.0-0v5 (>= 1.10.0) | libgstreamermm-1.0-1 (>= 1.10.0), gstreamer1.0-plugins-base (>= 1.2.4), gstreamer1.0-plugins-good (>= 1.2.4), gstreamer1.0-plugins-ugly (>= 1.2.4), libcurl4 (>= 7.16.4), libnotify4 (>= 0.7.6), libmagic1 (>= 5.24), libappindicator3-1 | gir1.2-appindicator3-0.1, dconf-gsettings-backend | gsettings-backend")
+set(_deps_legacy "libc6, libgtkmm-3.0-1 | libgtkmm-3.0-1v5 (>= 3.10.1), libgstreamermm-0.10-2 (>= 0.10.11) | libgstreamermm-1.0-0v5 (>= 1.4.3) | libgstreamermm-1.0-1 (>= 1.10.0), gstreamer0.10-plugins-base | gstreamer1.0-plugins-base, gstreamer0.10-plugins-good | gstreamer1.0-plugins-good, gstreamer0.10-plugins-ugly | gstreamer1.0-plugins-ugly, libcurl3 | libcurl4, libnotify4, libmagic1, libappindicator3-1 | libappindicator1")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "${_deps_legacy}")
 if (EXISTS "/etc/os-release")
     file(READ "/etc/os-release" _os_release)

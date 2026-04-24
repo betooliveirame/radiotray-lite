@@ -10,21 +10,56 @@
 * Supports PLS, M3U, ASX, RAM, XSPF playlists.
 
 ### Build
-For a while this project is only tested on Ubuntu (14.04 and 16.04 versions). In order to build it you need to have
-installed `-dev` versions of the following packages:
-* `libgtkmm-3.0`
-* `libgstreamermm-0.10-2` or `libgstreamermm-1.0`
-* `libcurl3`
-* `libnotify4`
-* `libappindicator3`
-* `libmagic`
 
-To compile program run following (with obvious amendments) commands from build directory:
-* `$ cmake /path/to/radiotray-lite/ -DCMAKE_INSTALL_PREFIX=/usr/`
-* `$ make`
-* `$ cpack -G DEB` to create package in `.deb` format or `$ cpack -G RPM` to create package in `.rpm` format.
+#### Ubuntu/Debian Dependencies
 
-Package will be created in the `packages` folder of the build directory.
+Install required development packages:
+
+**Ubuntu 26.04 (Noble) and later:**
+```bash
+sudo apt-get install build-essential cmake pkg-config \
+  libgtkmm-3.0-dev \
+  libgstreamermm-1.0-dev \
+  libcurl4-openssl-dev \
+  libnotify-dev \
+  libayatana-appindicator3-dev \
+  libmagic-dev
+```
+
+**Ubuntu 22.04 (Jammy) and Ubuntu 20.04 (Focal):**
+```bash
+sudo apt-get install build-essential cmake pkg-config \
+  libgtkmm-3.0-dev \
+  libgstreamermm-1.0-dev \
+  libcurl4-openssl-dev \
+  libnotify-dev \
+  libappindicator3-dev \
+  libmagic-dev
+```
+
+**Older versions (Ubuntu 16.04, 18.04):**
+May require either `libgstreamermm-0.10-dev` or `libgstreamermm-1.0-dev` depending on availability.
+
+#### Build Instructions
+
+```bash
+mkdir -p build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+make -j$(nproc)
+sudo cpack -G DEB
+# or for RPM: cpack -G RPM
+sudo dpkg -i packages/*.deb
+```
+
+The package will be created in the `build/packages/` directory.
+
+#### Alternative: Direct Installation
+```bash
+mkdir -p build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+make -j$(nproc)
+sudo make install
+```
 
 ### Configuration
 #### Bookmarks
@@ -41,7 +76,7 @@ Configuration file is located in the same directory as bookmarks file. It has si
 
 Example:
 
-```
+```xml
 <?xml version="1.0"?>
 <config>
   <option name="last_station" value="Rock 181" />
